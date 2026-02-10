@@ -1,7 +1,9 @@
 
     
     
-    truncate table "postgres"."public"."activity";
+    
+    create table "postgres"."public"."activity" ("activity_id" integer,"type" text,"assigned_to_user" integer,"deal_id" integer,"done" boolean,"due_to" timestamp without time zone)
+  ;
     -- dbt seed --
     
           insert into "postgres"."public"."activity" ("activity_id", "type", "assigned_to_user", "deal_id", "done", "due_to") values

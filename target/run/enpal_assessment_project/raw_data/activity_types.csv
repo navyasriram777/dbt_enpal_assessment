@@ -1,7 +1,9 @@
 
     
     
-    truncate table "postgres"."public"."activity_types";
+    
+    create table "postgres"."public"."activity_types" ("id" integer,"name" text,"active" text,"type" text)
+  ;
     -- dbt seed --
     
           insert into "postgres"."public"."activity_types" ("id", "name", "active", "type") values

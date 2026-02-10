@@ -1,7 +1,9 @@
 
     
     
-    truncate table "postgres"."public"."users";
+    
+    create table "postgres"."public"."users" ("id" integer,"name" text,"email" text,"modified" text)
+  ;
     -- dbt seed --
     
           insert into "postgres"."public"."users" ("id", "name", "email", "modified") values

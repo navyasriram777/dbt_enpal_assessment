@@ -1,7 +1,9 @@
 
     
     
-    truncate table "postgres"."public"."stages";
+    
+    create table "postgres"."public"."stages" ("stage_id" integer,"stage_name" text)
+  ;
     -- dbt seed --
     
           insert into "postgres"."public"."stages" ("stage_id", "stage_name") values
