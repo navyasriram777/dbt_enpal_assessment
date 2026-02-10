@@ -1,0 +1,74 @@
+version: 2
+tests:
+  not_null_test: &not_null_test
+    - not_null
+
+  unique_not_null_test: &unique_not_null_test
+    - not_null
+    - unique
+
+models:
+  - name: stg_activity_types
+    description: "List of activity types (like calls, meetings, emails) used in Pipedrive."
+    columns: 
+      - name: activity_id
+        tests: *unique_not_null_test
+      - name: activity_type
+        tests: *unique_not_null_test
+      - name: is_active
+        tests:
+        - accepted_values: 
+           values: [1,0]
+
+
+  - name: stg_activity
+    description: "All sales activities logged in Pipedrive, such as calls, meetings, and tasks."
+    columns:
+      - name: activity_id
+        tests: *unique_not_null_test
+      - name: activity_type
+        tests: *not_null_test
+      - name: user_id
+        tests: *not_null_test
+      - name: deal_id
+        tests: *not_null_test
+      - name: is_completed
+        tests:
+          - accepted_values:
+             values: [1,0]
+
+  - name: stg_deal_changes
+    description: "Tracks changes made to deals over time, helping us understand how deals move through the pipeline."
+    columns:
+      - name: deal_id
+        tests: *not_null_test
+      - name: deal_updated_ts
+        tests: *not_null_test
+      - name: deal_tracked_key
+        tests: *not_null_test
+      - name: deal_value_updated
+        tests: *not_null_test
+
+  - name: stg_fields
+    description: "Details about the fields available in Pipedrive, including custom fields created by the business."
+    columns:
+      - name: field_id
+        tests: *not_null_test
+      - name: field_key
+        tests: *not_null_test
+
+  - name: stg_stages
+    description: "Shows the stages that deals go through in the sales pipeline."
+    columns:
+      - name: stage_id
+        tests: *unique_not_null_test
+      - name: stage_name
+        tests: *unique_not_null_test
+
+  - name: stg_users
+    description: "Information about Pipedrive users, mainly the sales reps responsible for deals and activities."
+    columns:
+      - name: user_id
+        tests: *unique_not_null_test
+      - name: user_email
+        tests: *not_null_test

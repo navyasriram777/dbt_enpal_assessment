@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "postgres"."public"."fields";
+    -- dbt seed --
+    
+          insert into "postgres"."public"."fields" ("id", "field_key", "name", "field_value_options") values
+          (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+      
+
+;
+  

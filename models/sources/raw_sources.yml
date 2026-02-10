@@ -1,0 +1,74 @@
+version: 2
+
+not_null_test: &not_null_test
+  - not_null
+
+sources:
+  - name: raw
+    database: postgres
+    schema: public
+
+    tables:
+      - name: activity_types
+        description: "Lookup table describing activity types such as calls, follow-ups, or meetings."
+        columns:
+          - name: id
+            tests: *not_null_test
+          - name: type
+            tests: *not_null_test
+
+      - name: users
+        description: "Contains user profile and account information."
+        columns:
+          - name: id
+            tests: *not_null_test
+          - name: email
+            tests: *not_null_test
+          - name: name
+            tests: *not_null_test
+
+      - name: activity
+        description: "Records user activities and interactions with clients."
+        columns:
+          - name: activity_id
+            tests: *not_null_test
+          - name: assigned_to_user
+            tests: *not_null_test
+          - name: deal_id
+            tests: *not_null_test
+          - name: type
+            tests: *not_null_test
+          - name: done
+            tests: *not_null_test
+          - name: due_to
+            tests: *not_null_test
+
+      - name: deal_changes
+        description: "Tracks status changes for deals across their lifecycle."
+        columns:
+          - name: deal_id
+            tests: *not_null_test
+          - name: change_time
+            tests: *not_null_test
+          - name: changed_field_key
+            tests: *not_null_test
+          - name: new_value
+            tests: *not_null_test
+
+      - name: fields
+        description: "Reference table describing field metadata and updates."
+        columns:
+          - name: id
+            tests: *not_null_test
+          - name: field_key
+            tests: *not_null_test
+          - name: name
+            tests: *not_null_test
+
+      - name: stages
+        description: "Defines the lifecycle stages of a deal from lead generation to closure."
+        columns:
+          - name: stage_id
+            tests: *not_null_test
+          - name: stage_name
+            tests: *not_null_test

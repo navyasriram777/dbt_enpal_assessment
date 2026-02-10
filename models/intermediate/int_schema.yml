@@ -1,0 +1,84 @@
+version: 2
+not_null_test: &not_null_test
+  - not_null
+
+unique_not_null_test: &unique_not_null_test
+  - not_null
+  - unique
+
+not_null_rel_user: &not_null_rel_user
+  - not_null
+  - relationships:
+      to: ref('stg_users')
+      field: user_id
+
+not_null_rel_activity_type: &not_null_rel_activity_type
+  - not_null
+  - relationships:
+      to: ref('stg_activity_types')
+      field: activity_type
+
+not_null_rel_stage_id: &not_null_rel_stage_id
+  - not_null
+  - relationships:
+      to: ref('stg_stages')
+      field: stage_id
+
+
+models:
+  - name: int_activities_enriched
+    description: "Enriched table created by combining activity, activity_type, users"
+
+    columns:
+      - name: activity_id
+        tests: *unique_not_null_test
+
+      - name: deal_id
+        tests: *not_null_test
+
+      - name: user_id
+        tests: *not_null_rel_user
+
+      - name: activity_type
+        tests: *not_null_rel_activity_type
+
+      - name: activity_name
+        tests: *not_null_test
+
+      - name: user_name
+        tests: *not_null_test
+
+      - name: user_email
+        tests: *not_null_test
+
+      - name: modified_ts
+        tests: *not_null_test
+
+      - name: due_date
+        tests: *not_null_test
+  - name: int_deal_stages_enriched
+    description: "Deduplicated deals with their corresponding stage and timestamp information."
+
+    columns:
+      - name: deal_id
+        description: "Unique identifier for the deal."
+        tests: *not_null_test
+
+      - name: stage_id
+        description: "ID of the deal stage."
+        tests: *not_null_rel_stage_id
+
+      - name: stage_name
+        description: "Name of the deal stage."
+        tests: *not_null_test
+
+      - name: deal_updated_ts
+        description: "Timestamp when the deal was updated."
+        tests: *not_null_test
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+         combination_of_columns:
+          - deal_id
+          - stage_id
+          - stage_name  
+

@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "postgres"."public"."stages";
+    -- dbt seed --
+    
+          insert into "postgres"."public"."stages" ("stage_id", "stage_name") values
+          (%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s),(%s,%s)
+      
+
+;
+  
