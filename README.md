@@ -32,8 +32,8 @@
   &nbsp;&nbsp;&nbsp;Step 9: Renewal/Expansion
 5. Column names of the reporting model: `month`, `kpi_name`, `funnel_step`, `deals_count`
 6. “Git commit” all the changes and create a PR to your forked repo (not the original one). Send your repo link to us.
-
-### **------------------SOLUTION PROCESS FLOW---------------------**
+---
+### **SOLUTION PROCESS FLOW**
 ### Sales Funnel DBT Project
 
 ## Overview
