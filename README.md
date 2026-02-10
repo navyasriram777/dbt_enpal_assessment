@@ -32,3 +32,50 @@
   &nbsp;&nbsp;&nbsp;Step 9: Renewal/Expansion
 5. Column names of the reporting model: `month`, `kpi_name`, `funnel_step`, `deals_count`
 6. “Git commit” all the changes and create a PR to your forked repo (not the original one). Send your repo link to us.
+
+# **------------------------------------------------------------------**
+# Sales Funnel DBT Project
+
+## Overview
+This project models sales funnel metrics from Pipedrive CRM. It transforms raw CRM data into a clean, structured dataset for monthly reporting, including main funnel steps (1-9) and sub-steps like Sales Call 1 (2.1) and Sales Call 2 (3.1).
+
+---
+
+## Data Flow & Layers
+
+1. **Raw Layer (`public` schema)**  
+   - Contains the raw CSV data loaded as seeds.  
+   - Raw data tables include `activity`, `activity_types`, `deal_changes`, `fields`, `stages`, `users`.  
+
+2. **Staging Layer (`stg_*` views in dedicated schema)**  
+   - Cleans and standardizes raw data.  
+   - Converts flags to booleans, parses JSON, trims and lowercases text, deduplicates users.  
+   - Implemented as **views** for easier debugging and lightweight transformations.
+
+3. **Intermediate Layer (`int_*` tables in dedicated schema)**  
+   - Enriches and combines staging tables.  
+   - Deduplicates deal stage updates and handles nulls safely.  
+   - Implemented as **tables** to store pre-aggregated, reusable data.
+
+4. **Mart Layer (`rep_sales_funnel_monthly` table in dedicated schema)**  
+   - Builds the final monthly funnel report with KPIs.  
+   - Counts unique deals per funnel step, including sub-steps.  
+   - Sorts funnel steps numerically for correct order.  
+   - Implemented as a **table** for reporting and performance.
+
+---
+
+## Key Decisions
+- CSV headers are lowercase to avoid Postgres case-sensitivity issues.  
+- `ROW_NUMBER()` used to deduplicate records in staging/intermediate layers.  
+- `COUNT(DISTINCT deal_id)` ensures deals aren’t double-counted in the mart layer.  
+- Month stored as date for easier reporting and filtering.  
+- Data tests applied at each layer: `not_null`, `unique`, `relationships`.  
+
+---
+
+## How to Run
+```bash
+dbt seed --full-refresh    # load raw CSVs into public schema
+dbt run                     # run models (staging → intermediate → mart)
+dbt test                    # run data quality tests
