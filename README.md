@@ -79,6 +79,6 @@ This project models sales funnel metrics from Pipedrive CRM. It transforms raw C
 dbt seed --full-refresh    # load raw CSVs into public schema
 dbt run                     # run models (staging → intermediate → mart)
 dbt test                    # run data quality tests
-
-## OUTPUT folder
-- Output images has been stored for intermediate & mart models in output folder
+---
+## OUTPUT Folder
+ -  Output images has been stored for intermediate & mart models in output folder
