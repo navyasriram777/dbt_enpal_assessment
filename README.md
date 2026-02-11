@@ -81,4 +81,4 @@ dbt run                     # run models (staging → intermediate → mart)
 dbt test                    # run data quality tests
 ---
 ## OUTPUT Folder
- -  Output images has been stored for intermediate & mart models in output folder
+ -  Output files has been stored for intermediate & mart models in output folder
