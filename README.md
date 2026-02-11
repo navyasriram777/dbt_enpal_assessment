@@ -42,6 +42,8 @@ This project models sales funnel metrics from Pipedrive CRM. It transforms raw C
 ---
 
 ## Data Flow & Layers
+![Project Structure Lazer](output/database_structure.png)
+
 
 1. **Raw Layer (`public` schema)**  
    - Contains the raw CSV data loaded as seeds.  
